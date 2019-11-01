@@ -1,0 +1,13 @@
+{
+  "name": "mikov",
+  "version": "0.0.1",
+  "description": "A collection of useful utils use by myself",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "repository": "https://github.com/geeklog/mikov.git",
+  "author": "Mike Wu",
+  "license": "MIT"
+}

@@ -17,7 +17,7 @@
  * ls ./dir
  *   nothing is in here
  */
-export function flatten() {
+exports.flatten = function flatten() {
   const fs = require('fs-extra');
   const ret = (code) => { console.log(code); process.exit(code); }
 

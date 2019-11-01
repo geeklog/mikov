@@ -1,23 +1,23 @@
-export function upper(str) {
+exports.upper = function upper(str) {
   return str.toUpperCase();
 }
 
-export function lower(str) {
+exports.lower =  function lower(str) {
   return str.toLowerCase();
 }
 
-export function camel(str) {
+exports.camel = function camel(str) {
 
 }
 
-export function pascal(str) {
+exports.parscal = function pascal(str) {
 
 }
 
-export function underscore(str) {
+exports.underscore = function underscore(str) {
 
 }
 
-export function dash(str) {
+exports.dash = function dash(str) {
 
 }

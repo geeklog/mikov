@@ -1,4 +1,4 @@
-export default function makeTable(objs, format) {
+exports.makeTable = function makeTable(objs, format) {
   let heads = Object.keys(objs[0]);
   let attrLens = [];
   let datas = [];

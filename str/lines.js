@@ -1,9 +1,9 @@
 
 
-export function trimLines(str) {
+exports.trimLines = function trimLines(str) {
   return str.split('\n').map(s => s.trim()).join('\n');
 }
 
-export function removeEmptyLines(str) {
-  str.split('\n').filter(line => !!line).join('\n');
+exports.removeEmptyLines = function removeEmptyLines(str) {
+  return str.split('\n').filter(line => !!line).join('\n');
 }

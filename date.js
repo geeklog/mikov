@@ -1,4 +1,4 @@
-export function format(timestamp) {
+exports.format = function format(timestamp) {
   function leftPad(str) {
     str = '' + str;
     if (str.length >= 3) return str;

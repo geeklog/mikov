@@ -1,0 +1,22 @@
+import {parseTimeDesc} from '../date';
+
+console.log('1days', parseTimeDesc('1days'));
+console.log('1day', parseTimeDesc('1day'));
+console.log('1 days', parseTimeDesc('1 days'));
+console.log('1 day', parseTimeDesc('1 day'));
+console.log('1hours', parseTimeDesc('1hours'));
+console.log('1hour', parseTimeDesc('1hour'));
+console.log('1 hours', parseTimeDesc('1 hours'));
+console.log('1 hour', parseTimeDesc('1 hour'));
+console.log('1minutes', parseTimeDesc('1minutes'));
+console.log('1minute', parseTimeDesc('1minute'));
+console.log('1min', parseTimeDesc('1min'));
+console.log('1 minutes', parseTimeDesc('1 minutes'));
+console.log('1 minute', parseTimeDesc('1 minute'));
+console.log('1 min', parseTimeDesc('1 min'));
+console.log('1seconds', parseTimeDesc('1seconds'));
+console.log('1second', parseTimeDesc('1second'));
+console.log('1sec', parseTimeDesc('1sec'));
+console.log('1 seconds', parseTimeDesc('1 seconds'));
+console.log('1 second', parseTimeDesc('1 second'));
+console.log('1 sec', parseTimeDesc('1 sec'));

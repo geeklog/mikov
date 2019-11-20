@@ -1,66 +1,63 @@
 import cached from '../cached';
 import {sleep} from '../time';
+import { expect } from 'chai';
 
-const run = fn => fn();
+describe('cached', () => {
+  it('memory cache', async () => {
+    const key = 'a_random_number';
+    const a = await cached( key, {type: 'memory'}, () => ('www.google.com' + Math.random()));
+    const b = await cached( key, {type: 'memory'}, () => ('www.google.com' + Math.random()));
+    expect(a).equal(b);
+  });
 
-(async () => {
-  const key = 'a_random_number';
-  let a;
-  a = await cached( key, {type: 'memory'}, () => ('www.google.com' + Math.random()));
-  console.log(a);
-
-  a = await cached( key, {type: 'memory'}, () => ('www.google.com' + Math.random()));
-  console.log(a);
-});
-
-(async () => {
-  for (let i = 0; i < 2; i++) {
+  it('memory cache: should use cache', async () => {
     const url = 'https://www.test.com';
+    const a = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
+    await sleep(1000);
+    const b = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
+    expect(a).equal(b);
+  });
+
+  it('memory cache: should expired', async () => {
+    const url = 'https://www.test.com';
+    const a = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
+    await sleep(2000);
+    const b = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
+    expect(a).not.equal(b);
+  });
+
+  it('file cache', async () => {
     const a = await cached(
-      url,
-      {type: 'file', path: 'tmp/cache/{urlparts,urlencode}'},
+      'https://www.test.com',
+      { type: 'file', path: 'tmp/cache/{urlparts,urlencode}' },
       () => ('www.test.com' + Math.random())
     );
-    console.log(a);
-  }
-});
+    const b = await cached(
+      'https://www.test.com',
+      { type: 'file', path: 'tmp/cache/{urlparts,urlencode}' },
+      () => ('www.test.com' + Math.random())
+    );
+    expect(a).equal(b);
+  });
 
-(async () => {
-  const url = 'https://www.test.com';
-  let a;
+  it('file cache: should use cache', async () => {
+    const url = 'https://www.test.com';
+    const a = await cached(url, {type: 'file', expire: 2000, path: './.cache/{hash}'},
+      () => ('www.test.com' + Math.random()));
+    await sleep(1000);
+    const b = await cached(url, {type: 'file', expire: 2000, path: './.cache/{hash}'},
+      () => ('www.test.com' + Math.random()));
+    expect(a).equal(b);
+  });
 
-  a = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
-  console.log(a);
+  it('file cache: should expired', async () => {
+    const url = 'https://www.test.com';
+    const a = await cached(url, {type: 'file', expire: 2000, path: './.cache/{hash}'},
+      () => ('www.test.com' + Math.random()));
+    await sleep(2000);
+    const b = await cached(url, {type: 'file', expire: 2000, path: './.cache/{hash}'},
+      () => ('www.test.com' + Math.random()));
+    expect(a).equal(b);
+  });
 
-  await sleep(1000);
-
-  // this should within cached
-  a = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
-  console.log(a);
-
-  await sleep(2000);
-
-  // this should expired
-  a = await cached(url, {type: 'memory', expire: 2000}, () => ('www.test.com' + Math.random()));
-  console.log(a);
-});
-
-run(async () => {
-  const url = 'https://www.test.com';
-  let a;
-
-  a = await cached(url, {type: 'file', expire: 2000, path: './cache/{hash}'}, () => ('www.test.com' + Math.random()));
-  console.log(a);
-
-  await sleep(1000);
-
-  // this should within cached
-  a = await cached(url, {type: 'file', expire: 2000, path: './cache/{hash}'}, () => ('www.test.com' + Math.random()));
-  console.log(a);
-
-  await sleep(2000);
-
-  // this should expired
-  a = await cached(url, {type: 'file', expire: 2000, path: './cache/{hash}'}, () => ('www.test.com' + Math.random()));
-  console.log(a);
 });

@@ -17,9 +17,9 @@ async function cached<T>(
   this: any,
   key: string,
   rules: {
-    expire: number,
+    expire?: number,
     type: 'memory' | 'file',
-    path: string
+    path?: string
   },
   content: T | (() => T)
 ) {

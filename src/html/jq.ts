@@ -1,5 +1,5 @@
 import * as cheerio from 'cheerio';
-import * as jquery from 'jquery';
+import jquery from 'jquery';
 import { JSDOM } from 'jsdom';
 
 interface JQHolder extends CheerioStatic {
@@ -22,7 +22,7 @@ class JQ {
       this.$ = (cheerio.load(html) as any) as JQHolder;
     } else {
       const dom = new JSDOM(html);
-      this.$ = (jquery(dom.window) as any) as JQHolder;
+      this.$ = (jquery(dom.window as any) as any) as JQHolder;
     }
     this.$.__DOM_PARSER__ = this.type;
     return this.$;

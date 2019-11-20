@@ -11,11 +11,11 @@ export function upsert(tableName: string, columnsOrDatas: any, datas: any) {
     columns = columnsOrDatas;
   }
 
-  const insertKeys = columns.split(',').map(k => '`' + k + '`').join(',');
-  const questionMarks = columns.split(',').map(x => '?').join(',');
+  const insertKeys = columns.split(',').map((k: string) => '`' + k + '`').join(',');
+  const questionMarks = columns.split(',').map((x: any) => '?').join(',');
 
   const updateKeys = columns.split(','); updateKeys.shift();
-  const updateQueries = updateKeys.map(k => '`' + k + '`' + '=?').join(',');
+  const updateQueries = updateKeys.map((k: string) => '`' + k + '`' + '=?').join(',');
 
   const sql =
     `insert into \`${

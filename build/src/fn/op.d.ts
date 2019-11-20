@@ -1,0 +1,13 @@
+import { Mapper } from '../types';
+export declare const trim: (s: string) => string;
+export declare const exists: (a: any) => boolean;
+export declare function collect<T>(val: T, memo: T[]): T[];
+export declare function tap<T>(fn: (a: T) => void): (a: T) => T;
+export declare function oneOf<T>(fns: Array<Mapper<T>>): (a: T) => T;
+export declare function compare<T>(arr: T[] | T, brr: T[] | T): 1 | 0 | -1;
+export declare const asc: typeof compare;
+export declare function desc<T>(a: T[] | T, b: T[] | T): number;
+export declare const replace: (pattern: string | RegExp, replacement: string) => (str: string) => string;
+export declare const random: (a?: number | undefined, b?: number | undefined) => () => number;
+export declare const startsWith: (prefix: string | string[]) => (str: string) => boolean;
+export declare const endsWith: (postfix: string | RegExp | string[]) => (str: string) => boolean;

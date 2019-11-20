@@ -1,5 +1,5 @@
 export default function(handleFunction: (data: any) => any) {
-  process.stdin.on('error', (err: Error) => {
+  process.stdin.on('error', (err: NodeJS.ErrnoException) => {
     if (err.code === "EPIPE") {
       console.log('error: stdin broken pipe');
       process.exit(0);

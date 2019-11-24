@@ -7,7 +7,6 @@ export function midnight() {
 }
 
 export function midnightTomorrow() {
-  const now = new Date();
   return exports.midnight() + 24 * 3600 * 1000;
 }
 
@@ -58,6 +57,10 @@ export function parseTimeDesc(dateStr: string) {
 
   if (dateStr === undefined) {
     return undefined;
+  }
+
+  if (!isNaN(Number(dateStr))) {
+    return Number(dateStr);
   }
 
   return shortcut([

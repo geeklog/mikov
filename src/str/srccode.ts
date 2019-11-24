@@ -29,7 +29,7 @@ export function countWords(str: string) {
   const tokenLines = str
     .split('\n')
     .map(line =>
-      line.split(/\W/).filter(t => t.replace(/\s+/g, '') != '')
+      line.split(/\W/).filter(t => t.replace(/\s+/g, '') !== '')
     )
     .filter(line => line.length);
 

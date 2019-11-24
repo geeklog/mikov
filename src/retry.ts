@@ -3,14 +3,14 @@ import { sleep } from './time';
 import debug from './debug';
 import { AnyFunc } from './types';
 
-function retry(fn: AnyFunc, ctrl: {times: number, interval: number}) {
+function retry(fn: AnyFunc, options: {times: number, interval: number|(() => number)}) {
   return async () => {
-    if (!ctrl) {
+    if (!options) {
       return await fn();
     }
 
     const errors = [];
-    const { times, interval } = ctrl;
+    const { times, interval } = options;
     const getInterval = getter(interval);
 
     for (let i = 0; i < times + 1; i++) {

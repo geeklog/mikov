@@ -1,10 +1,14 @@
-const _ = require('../mikov');
+import { cases } from '..';
+import { expect } from 'chai';
 
-const a = _.cases(2, [
-  [1, 'a'],
-  [2, 'b'],
-  [3, 'c'],
-  [true, 'd']
-]);
-
-console.log(a);
+describe('cases', () => {
+  it('matches caches', async () => {
+    const a = cases(2, [
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c'],
+      [true, 'd'],
+    ]);
+    expect(a).equal('b');
+  });
+});

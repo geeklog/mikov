@@ -1,3 +1,7 @@
+import { join } from 'path';
+import { getter } from './fn';
+import { parseTimeDesc } from './date';
+
 /**
  * cached
  *
@@ -17,15 +21,13 @@ async function cached<T>(
   this: any,
   key: string,
   rules: {
-    expire?: number,
+    expire?: number | string,
     type: 'memory' | 'file',
     path?: string
   },
   content: T | (() => T)
 ) {
-  const { join } = require('path');
-  const { getter } = require('./fn');
-  const { parseTimeDesc } = require('./date');
+
   const get = getter(content);
 
   if (!rules) {
@@ -36,7 +38,7 @@ async function cached<T>(
     throw new Error(`No type: ${JSON.stringify(rules)}`);
   }
 
-  if (!rules.path) {
+  if (rules.type === 'file' && !rules.path) {
     throw new Error(`No path: ${JSON.stringify(rules)}`);
   }
 
@@ -54,7 +56,7 @@ async function cached<T>(
     const notExpired = !(
       rules.expire &&
       this.__memoryCacheExpirations[key] &&
-      Date.now() - this.__memoryCacheExpirations[key] >= parseTimeDesc(rules.expire)
+      Date.now() - this.__memoryCacheExpirations[key] >= parseTimeDesc('' + rules.expire)
     );
     if (this.__memoryCache[key] && notExpired) {
       return this.__memoryCache[key];
@@ -81,17 +83,19 @@ async function cached<T>(
       notExpired = false;
     } else {
       const lastModifield = (await fs.stat(fpath)).mtime.getTime();
-      notExpired = Date.now() - lastModifield < parseTimeDesc(rules.expire);
+      notExpired = Date.now() - lastModifield < parseTimeDesc('' + rules.expire);
     }
 
     if (fileExisted && notExpired) {
       return await fs.readFile(fpath);
+
     } else {
-      const data = await get();
+      const data: any = await get();
       await fs.mkdirp(p.dirname(fpath));
       if (!data) {
         throw new Error(`no data: ${content}`);
       }
+
       if (data.pipe) {
         const fw = fs.createWriteStream(fpath);
         data.pipe(fw);
@@ -100,6 +104,7 @@ async function cached<T>(
           fw.on('error', reject);
         });
         return await fs.readFile(fpath);
+
       } else {
         await fs.writeFile(fpath, data);
       }

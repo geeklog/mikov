@@ -2,7 +2,7 @@ type Func = () => any;
 
 interface Options {
   onErrorOccur?: 'skip' | 'break';
-  suppressError: boolean;
+  suppressError?: boolean;
 }
 
 type OnOneDone = (r: any, success: number, fail: number, total: number) => void;

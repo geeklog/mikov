@@ -55,7 +55,7 @@ export function pad(str: string, n: number) {
   return str + repeat(' ', n - w);
 }
 
-export function explode(str: string, spliter: string, replaceFn: (a: any, i: number) => any) {
+export function explode(str: string, spliter: string|RegExp, replaceFn?: (a: any, i: number) => any) {
   const parts = [];
   let r: any = str.match(spliter);
   let icol = 0;

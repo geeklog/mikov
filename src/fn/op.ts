@@ -97,3 +97,4 @@ export const endsWith = (postfix: string[] | string | RegExp) => (str: string) =
   }
   return str.endsWith(postfix);
 };
+

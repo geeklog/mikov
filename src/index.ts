@@ -25,6 +25,38 @@ export function equals(a: any, b: any): boolean {
   return a === b;
 }
 
+export function cmp(a: any, b: any): number {
+  if ((isArray(a) && isArray(b)) || (isObject(a) && isObject(b))) {
+    let r;
+    for (const k in a) {
+      r = cmp(a[k], b[k]);
+      if (r !== 0) {
+        return r;
+      }
+    }
+    return r;
+  }
+  if (a === undefined && b !== undefined) {
+    return -1;
+  }
+  if (a !== undefined && b === undefined) {
+    return 1;
+  }
+  if (a !== undefined && !isNaN(Number(a))) {
+    a = Number(a);
+  }
+  if (a !== undefined && !isNaN(Number(b))) {
+    b = Number(b);
+  }
+  if (a < b) {
+    return -1;
+  }
+  if (a > b) {
+    return 1;
+  }
+  return 0;
+}
+
 export function entries(o: any) {
   const arr = [];
   for (const k of Object.keys(o)) {

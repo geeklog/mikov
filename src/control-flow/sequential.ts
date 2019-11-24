@@ -1,6 +1,6 @@
 type Func = () => any;
 
-export default class Sequential {
+class Sequential {
 
   private exeQueue: Func[] = [];
   private fn ?: Func;
@@ -20,4 +20,8 @@ export default class Sequential {
     this.fn = undefined;
   }
 
+}
+
+export function sequential() {
+  return new Sequential();
 }

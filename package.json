@@ -1,20 +1,20 @@
 {
   "name": "mikov",
-  "version": "0.0.8",
+  "version": "0.0.13",
   "description": "A collection of useful utils use by myself",
-  "main": "build/index.js",
-  "type": "build/index.d.ts",
+  "main": "index.js",
+  "type": "index.d.ts",
   "scripts": {
+    "build": "tsc",
+    "pub": "pushd . && tsc && cp package.json dist && cd dist && npm publish || popd",
     "test": "mocha -r ts-node/register **/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
-  "prepublish": "tsc",
   "keywords": [],
   "repository": "https://github.com/geeklog/mikov.git",
   "author": "Mikov",
   "license": "MIT",
   "dependencies": {
-    "@types/fs-extra": "^8.0.1",
     "fs-extra": "^8.1.0",
     "https-proxy-agent": "^3.0.1",
     "jquery": "^3.4.1",
@@ -25,6 +25,7 @@
     "walk-sync": "^2.0.2"
   },
   "devDependencies": {
+    "@types/fs-extra": "^8.0.1",
     "@types/chai": "^4.2.5",
     "@types/cheerio": "^0.22.14",
     "@types/jquery": "^3.3.31",

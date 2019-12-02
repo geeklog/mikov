@@ -1,7 +1,7 @@
-import { getter } from './fn';
-import { sleep } from './time';
-import debug from './debug';
-import { AnyFunc } from './types';
+import { getter } from '../fn';
+import { sleep } from './sleep';
+import debug from '../debug';
+import { AnyFunc } from '../types';
 
 function retry(fn: AnyFunc, options: {times: number, interval: number|(() => number)}) {
   return async () => {

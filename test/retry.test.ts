@@ -1,4 +1,4 @@
-import retry from '../retry';
+import retry from '../src/control-flow/retry';
 import { expect } from 'chai';
 
 describe('retry', () => {

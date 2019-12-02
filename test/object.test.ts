@@ -1,4 +1,4 @@
-import {transferAttribute} from '..';
+import {transferAttribute} from '../src/';
 import { assert } from 'chai';
 
 describe('object', () => {

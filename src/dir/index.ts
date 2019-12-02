@@ -6,24 +6,36 @@ import { isRawType } from '../url';
 import { replaceLast } from '../array';
 import { endsWith } from '../fn/op';
 import { removeLastChar, extract } from '../str';
-import { readdirSync, moveSync } from 'fs-extra';
+
 import md5 from '../md5';
 import * as p from 'path';
-
-export { mkdirp } from 'fs-extra';
 
 export const dir     = (path: string) => p.join(__dirname, path);
 export const dirname = (path: string) => p.dirname(path);
 export const cwd     = (fpath: string) => p.join(process.cwd(), fpath);
 
-export function absolute(path: string) {
-  if (path.startsWith('~/')) {
-    return homedir() + path.slice(1, path.length);
+export function absolute(fpath: string) {
+  if (fpath.startsWith('~/')) {
+    return homedir() + fpath.slice(1, fpath.length);
   }
-  if (path.startsWith('./')) {
-    return p.resolve(p.join(process.cwd(), path));
+  if (fpath.startsWith('./')) {
+    return p.resolve(p.join(process.cwd(), fpath));
   }
-  return p.resolve(path);
+  return p.resolve(fpath);
+}
+
+export function absPath(fpath: string) {
+  if (fpath.startsWith('~/')) {
+    return homedir() + fpath.slice(1, fpath.length);
+  }
+  if (fpath.startsWith('./')) {
+    return p.resolve(p.join(process.cwd(), fpath));
+  }
+  return p.resolve(fpath);
+}
+
+export function tmpPath(fpath: string) {
+  return p.join(tmpdir(), fpath);
 }
 
 /**
@@ -114,27 +126,4 @@ export function applyFilePathPattern(key: string, pathPattern: string) {
     str = p.join(str, pathPatternPostfix);
   }
   return str;
-}
-
-/**
- * flattern dir
- * 把dir目录下的所有文件都移动到上一层
- * ls .
- *   dir/
- * ls ./dir
- *   a.txt b.txt c.txt
- *
- * flattern ./dir
- *
- * ls .
- *   a.txt b.txt c.txt
- * ls ./dir
- *   nothing is in here
- */
-export function flatten(path: string) {
-  for (const file of readdirSync(path)) {
-    const filePath = path + '/' + file;
-    const upperFilePath = '../' + path + '/' + file;
-    moveSync(filePath, upperFilePath);
-  }
 }

@@ -1,12 +1,13 @@
 {
   "name": "mikov",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "description": "A collection of useful utils use by myself",
   "main": "index.js",
   "type": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "pub": "pushd . && tsc && cp package.json dist && cd dist && npm publish || popd",
+    "pub-dev": "pushd . && tsc && cp package.json dist && cd dist && npm link || popd",
     "test": "mocha -r ts-node/register **/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
@@ -15,23 +16,14 @@
   "author": "Mikov",
   "license": "MIT",
   "dependencies": {
-    "fs-extra": "^8.1.0",
-    "https-proxy-agent": "^3.0.1",
-    "jquery": "^3.4.1",
-    "jsdom": "^15.2.1",
-    "lodash": "^4.17.15",
-    "nearley": "^2.19.0",
-    "translate-google": "^1.3.5",
-    "walk-sync": "^2.0.2"
+    "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "@types/fs-extra": "^8.0.1",
     "@types/chai": "^4.2.5",
     "@types/cheerio": "^0.22.14",
-    "@types/jquery": "^3.3.31",
-    "@types/jsdom": "^12.2.4",
     "@types/lodash": "^4.14.147",
     "@types/mocha": "^5.2.7",
+    "@types/node": "^12.12.14",
     "chai": "^4.2.0",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",

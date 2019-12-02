@@ -2,6 +2,7 @@ import { SimpleFunc, AnyFunc } from '../types';
 
 export * from './concurrent';
 export * from './sequential';
+export * from './sleep';
 
 export function setLimitedInterval(
   fn: (...args: any[]) => any,

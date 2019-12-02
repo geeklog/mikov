@@ -1,7 +1,10 @@
-import { isArray, isObject, isNumber, isFunction } from 'util';
 import { Filter } from './types';
+import { splitTail } from './array';
+import { isRegExp, isArray, isObject, isNumber, isFunction } from './is';
 
 export * from './control-flow';
+
+export const str = s => `${s}`;
 
 export function int(a: any) {
   return Math.floor(Number(a) || 0);
@@ -90,20 +93,32 @@ export function typedef(obj: any): object | string {
   return typeof obj;
 }
 
-export function cases<T>(val: any, arr: Array<[Filter<T> | number | boolean, T]>): T {
+export function cases<T>(val: any, arr: any[]): T {
   for (let i = 0; i < arr.length; i++) {
-    const [cond, label] = arr[i];
-    if (isNumber(cond)) {
-      if (val < cond) {
-        return label;
+    const [conds, match] = splitTail(arr[i]);
+    for (const cond of conds) {
+      if (val === cond) {
+        return match;
       }
-    } else if (isFunction(cond)) {
-      if ((cond as Filter<T>)(val, i)) {
-        return label;
+      if (isNumber(cond) && val < cond) {
+        return match;
       }
-    } else if (cond === true) {
-      return label;
+      if (isFunction(cond) && (cond as Filter<T>)(val, i)) {
+        return match;
+      }
+      if (isRegExp(cond) && cond.test(val)) {
+        return match;
+      }
+      if (cond === true) {
+        return match;
+      }
     }
   }
-  return arr[arr.length - 1][1];
+  return undefined;
+}
+
+export function between(lowerBound: any, val: any, upperBound: any) {
+  if (val < lowerBound) { return lowerBound; }
+  if (val > upperBound) { return upperBound; }
+  return val;
 }

@@ -1,7 +1,36 @@
-import { isArray, isObject } from "../is";
+import { isArray, isObject, isFunction } from "../is";
 import { Mapper } from '../types';
+import { between } from '../index';
 
 interface Str2str {[index: string]: string; }
+
+export function replaceFirst(str, replacement: string | ((s: string) => string)) {
+  const first = isFunction(replacement) ? (replacement as (s: string) => string)(str[0]) : replacement;
+  return first + str.slice(1);
+}
+
+export function isControlChar(str: string) {
+  if (str.length !== 1) {
+    return false;
+  }
+  const i = str.charCodeAt(0);
+  return (0 <= i && i <= 32) || (127 <= i && i <= 160) || i === 173;
+}
+
+/**
+ * escape the unvisible control chars as hex value
+ * @param str
+ */
+export function escapeCharSequence(str: string) {
+  return charCodes(str).map(i => {
+    const ch = String.fromCharCode(i);
+    if ( (0 <= i && i <= 32) || (127 <= i && i <= 160) || i === 173) {
+      return '\\u' + i.toString(16).padStart(4, '0');
+    } else {
+      return ch;
+    }
+  }).join('');
+}
 
 /**
  * replaceAll('ayz', 'a', 'x') => 'xyz'
@@ -154,4 +183,116 @@ export function splitMapJoin(str: string, delimiter: string, mapper: Mapper<stri
 
 export function isWhitespace(str: string) {
   return !!str.match(/^\s+$/);
+}
+
+export function charCodes(str: string, format: 'decimal'|'hex' = 'decimal') {
+  const arr = [];
+  for (let i = 0; i < str.length; i++) {
+    arr.push(format === 'hex' ? (str.charCodeAt(i)).toString(16) : str.charCodeAt(i));
+  }
+  return arr;
+}
+
+/**
+ * removeCharAt('abcdefg', 2) => 'abdefg'
+ */
+export function removeCharAt(str: string, index: number) {
+  return str.substring(0, index) + str.substring(index + 1, str.length);
+}
+
+/**
+ * replaceCharAt('abcdefg', 2, 'x') => 'abxdefg'
+ */
+export function replaceCharAt(str: string, index: number, replacement: string) {
+  return str.substring(0, index) + replacement + str.substring(index + 1, str.length);
+}
+
+/**
+ * replaceCharAt('abcdefg', 2, 'x') => 'abxcdefg'
+ */
+export function insertCharAt(str: string, index: number, char: string) {
+  return str.substring(0, index) + char + str.substring(index, str.length);
+}
+
+/**
+ * 012345678
+ * abc  efg
+ *      <--^    (1) currently at 8
+ *     ^        (2) should return 4
+ * if not found: return -1
+ */
+export function toEndOfPrevSpace(str: string , currIndex: number) {
+  currIndex = between(0, currIndex, str.length - 1);
+  let inWhitespace = false;
+  if (isWhitespace(str[currIndex])) {
+    inWhitespace = true;
+  }
+  for (let i = currIndex; i >= 0; i--) {
+    if (inWhitespace && isWhitespace(str[i])) {
+      continue;
+    }
+    inWhitespace = false;
+    if (isWhitespace(str[i])) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ * 012345678
+ * abc  efg
+ *   ^->     (1) currently at 2
+ *      ^    (2) should return 5
+ * if not found: return -1
+ */
+export function toStartOfNextWord(str: string, currIndex: number) {
+  currIndex = between(0, currIndex, str.length - 1);
+  let foundWhitespace = false;
+  for (let i = currIndex; i < str.length; i++) {
+    if (isWhitespace(str[i])) {
+      foundWhitespace = true;
+      continue;
+    } else if (foundWhitespace) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+/**
+ *
+ * 012345678
+ * abc  defgh
+ *       <-^  (1) currently at 8
+ *      ^     (2) should return 5
+ *
+ * 012345678
+ * abc  defgh
+ *     ^      (1) if is in whitespace, just return current index;
+ */
+export function toStartOfCurrentWord(str: string, currIndex: number): number {
+  currIndex = between(0, currIndex, str.length - 1);
+  if (isWhitespace(str[currIndex])) {
+    return currIndex;
+  }
+  for (let i = currIndex; i >= 0; i--) {
+    if (!isWhitespace(str[i])) {
+      continue;
+    }
+    return i + 1;
+  }
+  return 0;
+}
+
+export function removeCharBetween(str: string, start: number, end: number) {
+  start = between(0, start, str.length - 1);
+  end   = between(start, end, str.length - 1);
+  let r = '';
+  for (let i = 0; i < str.length; i++) {
+    if (i < start || i > end) {
+      r += str[i];
+    }
+  }
+  return r;
 }

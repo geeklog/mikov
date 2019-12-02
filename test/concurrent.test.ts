@@ -1,8 +1,6 @@
-import { concurrent } from '..';
-import { sleep } from '../time';
+import { concurrent, sleep } from '../src';
 
 const delayNumber = n => async () => {
-  console.log('call', n);
   await sleep(1000);
   return n;
 };
@@ -11,7 +9,7 @@ const createError = () => () => {
   throw new Error('eh-oh');
 };
 
-describe('applyFilePathPattern', () => {
+describe('concurrent', () => {
   it('1', async () => {
     const q = concurrent(3);
     q.go(delayNumber(1));
@@ -19,12 +17,12 @@ describe('applyFilePathPattern', () => {
     q.go(delayNumber(3));
     q.go(delayNumber(4));
     q.go(delayNumber(5));
-    q.one(r => console.log('return:', r));
-    q.done(() => console.log('done'));
+    q.one(r => r);
+    q.done(() => '');
   });
 
   it('2', async () => {
-    const q = concurrent(3, {onErrorOccur: 'skip'});
+    const q = concurrent(3, {onErrorOccur: 'skip', suppressError: true});
     q.go(delayNumber(1));
     q.go(delayNumber(2));
     q.go(delayNumber(3));
@@ -33,7 +31,7 @@ describe('applyFilePathPattern', () => {
   });
 
   it('3', async () => {
-    const q = concurrent(3, {onErrorOccur: 'skip'});
+    const q = concurrent(3, {onErrorOccur: 'skip', suppressError: true});
     q.go(delayNumber(1));
     q.go(delayNumber(2));
     q.go(delayNumber(3));
@@ -42,15 +40,14 @@ describe('applyFilePathPattern', () => {
     q.go(delayNumber(5));
     q.go(delayNumber(6));
     q.go(delayNumber(7));
-    q.one(r => console.log('return:', r));
-    q.done(() => console.log('done'));
-    q.error(err => console.error('error:', err));
+    q.one(r => r);
+    q.done(() => '');
   });
 
   it('4', async () => {
-    const q = concurrent(3, {onErrorOccur: 'break'});
-    q.one(r => console.log('return:', r));
-    q.error(err => console.error('error:', err));
+    const q = concurrent(3, {onErrorOccur: 'break', suppressError: true});
+    q.one(r => r);
+    q.done(() => '');
     q.go(delayNumber(1));
     q.go(delayNumber(2));
     q.go(delayNumber(3));

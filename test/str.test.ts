@@ -1,4 +1,4 @@
-import * as str from '../str';
+import * as str from '../src/str';
 import { assert } from 'chai';
 
 describe('str', () => {

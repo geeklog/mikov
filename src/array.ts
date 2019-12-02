@@ -9,6 +9,44 @@ export function clone(a: any[]) {
   return b;
 }
 
+export function mapEachValue(array: any[], mapper: (k, v) => any) {
+  const rs = [];
+  for (const obj of array) {
+    const r = {};
+    for (const [k, v] of Object.entries(obj)) {
+      r[k] = mapper(k, v);
+    }
+    rs.push(r);
+  }
+  return rs;
+}
+
+export function mapColumn(array: any[][], fn: (a: any) => any) {
+  const columns = [];
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < array.length; i++) {
+    for (let j = 0; j < array[i].length; j++) {
+      columns[j] = columns[j] || [];
+      columns[j].push(array[i][j]);
+    }
+  }
+  return columns.map(fn);
+}
+
+export function map2d(array: any[][], fn: (a: any) => any) {
+  const results = [];
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < array.length; i++) {
+    const row = [];
+    // tslint:disable-next-line: prefer-for-of
+    for (let j = 0; j < array[i].length; j++) {
+      row.push(fn(array[i][j]));
+    }
+    results.push(row);
+  }
+  return results;
+}
+
 export function groupBy(objs: any[], k: AnyFunc | string): any[][] {
   const groupsDict: any = {};
   for (const o of objs) {
@@ -125,6 +163,9 @@ export function split(arr: any[], fn: AnyFunc) {
   return [a, b];
 }
 
+/**
+ * splitAt([1,2,3], 1) => [[1],[2,3]]
+ */
 export function splitAt(arr: any[], ii: any) {
   const a: any[] = [];
   const b: any[] = [];
@@ -132,6 +173,13 @@ export function splitAt(arr: any[], ii: any) {
     (i < ii ? a : b).push(arr[i]);
   }
   return [a, b];
+}
+
+/**
+ * splitTail([1,2,3]) => [[1,2], 3]]
+ */
+export function splitTail(arr: any[]) {
+  return [arr.slice(0, arr.length - 1), arr[arr.length - 1]];
 }
 
 /**

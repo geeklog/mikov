@@ -1,4 +1,4 @@
-export function upper(str: string) {
+export function upper(str: string): string {
   return str.toUpperCase();
 }
 

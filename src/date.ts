@@ -72,3 +72,21 @@ export function parseTimeDesc(dateStr: string) {
   ], dateStr);
 
 }
+
+/**
+ * timestamp => 1 sec
+ * timestamp => 1 m 30.26 sec
+ */
+export function descibeTime(time: number) {
+  const second = 1 * 1000;
+  const minute = 60 * second;
+  if (time < 1 * second) {
+    return `${(time / second).toFixed(2)} sec`;
+  }
+  if (time < 1 * minute) {
+    return `${(time / second).toFixed(2)} sec`;
+  }
+  const secs = (time % minute).toFixed(2);
+  const mins = Math.floor(time / minute);
+  return `${mins} min ${secs} sec`;
+}

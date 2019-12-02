@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { cmp } from '..';
+import { cmp } from '../src/';
 
 describe('cmp', () => {
   it('should equal', async () => {

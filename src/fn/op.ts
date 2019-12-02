@@ -98,3 +98,22 @@ export const endsWith = (postfix: string[] | string | RegExp) => (str: string) =
   return str.endsWith(postfix);
 };
 
+export function maxBy<T>(k: keyof T) {
+  return (arr: T[]) => {
+    let max: number = Number(arr[0][k]);
+    for (const a of arr) {
+      max = Math.max(max, Number(a[k]));
+    }
+    return max;
+  };
+}
+
+export function repeat(t: string) {
+  return (count: number) => {
+    let s = '';
+    for (let i = 0; i < count; i++) {
+      s += t;
+    }
+    return s;
+  };
+}

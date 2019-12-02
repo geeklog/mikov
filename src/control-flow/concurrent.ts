@@ -23,9 +23,11 @@ export class Concurrent {
   private onError ?: OnError;
   private onAllDone ?: OnAllDone;
   private supressError: boolean = false;
+  private isAllDone: boolean = false;
 
   constructor(limit: number, options?: Options) {
     this.onErrorOccur = options && options.onErrorOccur || 'skip';
+    this.supressError = (options && options.suppressError) || false;
     this.limit = limit;
   }
 
@@ -93,7 +95,8 @@ export class Concurrent {
       return;
     }
 
-    if (this.exeQueue.length === 0) {
+    if (this.exeQueue.length === 0 && !this.isAllDone) {
+      this.isAllDone = true;
       this.onAllDone && this.onAllDone(this.success, this.fail, this.total);
     } else {
       this.next();

@@ -1,4 +1,4 @@
-import { typedef } from '..';
+import { typedef } from '../src';
 import { assert } from 'chai';
 
 describe('typedef', () => {

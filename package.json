@@ -1,13 +1,13 @@
 {
   "name": "mikov",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "A collection of useful utils use by myself",
   "main": "index.js",
   "type": "index.d.ts",
   "scripts": {
     "build": "tsc",
-    "pub": "pushd . && tsc && cp package.json dist && cd dist && npm publish || popd",
-    "pub-dev": "pushd . && tsc && cp package.json dist && cd dist && npm link || popd",
+    "pub": "pushd . && rm -rf dist && tsc && cp package.json dist && cd dist && npm publish || popd",
+    "pub-dev": "pushd . && rm -rf dist && tsc && cp package.json dist && cd dist && npm link || popd",
     "test": "mocha -r ts-node/register **/*.test.ts",
     "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },

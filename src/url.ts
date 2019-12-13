@@ -1,3 +1,6 @@
+import { replaceLast } from "./str";
+import { replaceFirst } from './str/index';
+
 export function complete(url: string) {
   if (!url.startsWith('http')) {
     return `http://${url}`;
@@ -21,3 +24,5 @@ export function isRawType(url: string) {
   const rawTypes = ['.png', '.gif', '.jpg', '.jpeg', '.pdf', '.bin'];
   return endsWith(rawTypes)(url);
 }
+
+export const urlJoin = (...args) => args.map(p => replaceLast(replaceFirst(p, '/', ''), '/', '')).join('/');

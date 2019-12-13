@@ -176,6 +176,28 @@ export function splitAt(arr: any[], ii: any) {
 }
 
 /**
+ * splitBy([1,2,3,1,2,3,1,2,3], 3) => [[1,2,3],[1,2,3],[1,2,3]]
+ */
+export function splitBy(arr: any[], n: number) {
+  const res = [];
+  let j = 0;
+  let chunk;
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < arr.length; i++) {
+    if (j === 0) {
+      chunk = [];
+      res.push(chunk);
+    }
+    j++;
+    if (j >= n) {
+      j = 0;
+    }
+    chunk.push(arr[i]);
+  }
+  return res;
+}
+
+/**
  * splitTail([1,2,3]) => [[1,2], 3]]
  */
 export function splitTail(arr: any[]) {
@@ -234,4 +256,20 @@ export function permutation(...args: any[]) {
     }
     return results;
   }
+}
+
+/**
+ * transpose([[1, 2, 3], [1, 2, 3]]) => [[1, 1], [2, 2], [3, 3]]
+ */
+export function transpose(array: any[][]) {
+  const transed = [];
+  const n = array.length;
+  const m = array[0].length;
+  for (let i = 0; i < m; i++) {
+    transed.push([]);
+    for (let j = 0; j < n; j++) {
+      transed[i][j] = array[j][i];
+    }
+  }
+  return transed;
 }

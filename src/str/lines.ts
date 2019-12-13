@@ -1,3 +1,4 @@
+import { maxBy } from '../fn/op';
 
 export function trimLines(str: string) {
   return str.split('\n').map(s => s.trim()).join('\n');
@@ -24,4 +25,16 @@ export function removeEmptyLines(str: string, consecutive?: number) {
   }
 
   return res.join('\n');
+}
+
+/**
+ * padEndMax(['a', 'aa', 'aaa'], ' ') => ['a  ', 'aa ', 'aaa']
+ */
+export function padEndMax(lines: string[], fillString: string) {
+  const maxLength = maxBy('length')(lines);
+  return lines.map(line => line.padEnd(maxLength, fillString));
+}
+
+export function print2d(array2d: any[][], joiner: string = ' ', linebreak: string = '\n') {
+  return array2d.map(row => row.join(joiner)).join(linebreak);
 }

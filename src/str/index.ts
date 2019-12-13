@@ -4,9 +4,23 @@ import { between } from '../index';
 
 interface Str2str {[index: string]: string; }
 
-export function replaceFirst(str, replacement: string | ((s: string) => string)) {
-  const first = isFunction(replacement) ? (replacement as (s: string) => string)(str[0]) : replacement;
-  return first + str.slice(1);
+export function replaceFirst(str, match: string = '', replacement: string | ((s: string) => string)) {
+  if (!match) {
+    match = str[0];
+  }
+  if (str.startsWith(match)) {
+    const first = isFunction(replacement) ? (replacement as (s: string) => string)(match) : replacement;
+    return first + str.slice(match.length);
+  } else {
+    return str;
+  }
+}
+
+export function replaceLast(str: string, match: string, replacement: string) {
+  if (str.endsWith(match)) {
+    return str.slice(0, str.length - match.length) + replacement;
+  }
+  return str;
 }
 
 export function isControlChar(str: string) {

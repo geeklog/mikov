@@ -1,5 +1,6 @@
 import * as str from '../src/str';
 import { assert } from 'chai';
+import { padEndMax, print2d } from '../src/str/lines';
 
 describe('str', () => {
 
@@ -18,6 +19,14 @@ describe('str', () => {
 
   it('removeLast', () => {
     str.removeLastChar('abc:', ':');
+  });
+
+  it('padEndMax', () => {
+    assert.deepEqual(padEndMax(['a', 'aa', 'aaa'], ' '), ['a  ', 'aa ', 'aaa']);
+  });
+
+  it('print2d', () => {
+    assert.deepEqual(print2d([[1, 2], [3, 4]]), '1 2\n3 4');
   });
 
 });

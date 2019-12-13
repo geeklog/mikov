@@ -1,6 +1,6 @@
 import { assert } from "chai";
 // tslint:disable-next-line: max-line-length
-import { toEndOfPrevSpace, toStartOfNextWord, toStartOfCurrentWord, removeCharBetween, charCodes, replaceFirst } from '../src/str/index';
+import { toEndOfPrevSpace, toStartOfNextWord, toStartOfCurrentWord, removeCharBetween, charCodes, replaceFirst, replaceLast } from '../src/str/index';
 
 assert.equal(toEndOfPrevSpace('abc  def', 8), 4);
 assert.equal(toEndOfPrevSpace('abc  def  ', 9), 4);
@@ -24,5 +24,10 @@ assert.equal(removeCharBetween('0123456', 7, 8), '012345');
 assert.equal(removeCharBetween('0123456', 6, 8), '012345');
 assert.equal(removeCharBetween('0123456', 5, 8), '01234');
 
-assert.equal(replaceFirst('abc', 'b'), 'bbc');
-assert.equal(replaceFirst('abc', c => `(${c})`), '(a)bc');
+assert.equal(replaceFirst('abc', '', 'b'), 'bbc');
+assert.equal(replaceFirst('abc', '', c => `(${c})`), '(a)bc');
+assert.equal(replaceFirst('/abc', '/a', 'b'), 'bbc');
+assert.equal(replaceFirst('/abc', '/', ''), 'abc');
+
+assert.equal(replaceLast('http://www.purepen.com/hlm/', '/', ''), 'http://www.purepen.com/hlm');
+assert.equal(replaceLast('http://www.purepen.com/hlm/', 'hlm/', ''), 'http://www.purepen.com/');

@@ -1,5 +1,5 @@
 /**
- * 所有文件路径相关的函数
+ * File relative utilities
  */
 import { homedir, tmpdir } from 'os';
 import { isRawType } from '../url';
@@ -72,7 +72,6 @@ export function applyFilePathPattern(key: string, pathPattern: string) {
   let rule;
   let parts = [key];
 
-  // tslint:disable-next-line: no-conditional-assignment
   while (rule = rules.shift()) {
     if (rule === 'urlparts') {
       parts = key.split('/').map(s => removeLastChar(s, ':'));

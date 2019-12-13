@@ -8,7 +8,9 @@
     "object-literal-sort-keys": false
   },
   "rules": {
+    "ban-types": false,
     "no-console": false,
+    "no-shadowed-variable": false,
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "radix": false,

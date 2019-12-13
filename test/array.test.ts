@@ -1,4 +1,4 @@
-import { replaceLast, splitAt, splitTail } from '../src/array';
+import { replaceLast, splitAt, splitTail, splitBy, transpose } from '../src/array';
 import { assert } from 'chai';
 
 describe('cases', () => {
@@ -12,5 +12,15 @@ describe('cases', () => {
 
   it('splitTail', () => {
     assert.deepEqual(splitTail([1, 2, 3]), [[1, 2], 3]);
+  });
+
+  it('splitBy', () => {
+    assert.deepEqual(splitBy([1, 2, 3, 1, 2, 3, 1, 2, 3], 3), [[1, 2, 3], [1, 2, 3], [1, 2, 3]]);
+    assert.deepEqual(splitBy([1, 2, 3], 1), [[1], [2], [3]]);
+    assert.deepEqual(splitBy([1, 2, 3], 4), [[1, 2, 3]]);
+  });
+
+  it('transpose', () => {
+    assert.deepEqual(transpose([[1, 2, 3], [1, 2, 3]]), [[1, 1], [2, 2], [3, 3]]);
   });
 });

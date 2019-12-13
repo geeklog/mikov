@@ -10,6 +10,8 @@ export function int(a: any) {
   return Math.floor(Number(a) || 0);
 }
 
+export { run } from './control-flow';
+
 /**
  * shalow comparation
  */

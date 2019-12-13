@@ -4,6 +4,10 @@ export * from './concurrent';
 export * from './sequential';
 export * from './sleep';
 
+export function run(fn: any, ...args: any[]) {
+  fn(...args);
+}
+
 export function setLimitedInterval(
   fn: (...args: any[]) => any,
   timeout: number,

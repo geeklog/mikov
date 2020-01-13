@@ -1,6 +1,6 @@
 {
   "name": "mikov",
-  "version": "0.3.0",
+  "version": "0.8.0",
   "description": "A collection of useful utils use by myself",
   "main": "index.js",
   "type": "index.d.ts",

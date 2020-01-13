@@ -1,5 +1,6 @@
 import { isString, isArray, isRegExp } from 'util';
 import { Mapper } from '../types';
+import { clone } from 'lodash';
 
 export const trim = (s: string) => s.trim();
 
@@ -115,5 +116,19 @@ export function repeat(t: string) {
       s += t;
     }
     return s;
+  };
+}
+
+/**
+ * selectByIndices([0,2])(['a','b','c']) => ['a','c']
+ */
+export function selectByIndices(indices: number[]) {
+  return (array: any[]) => {
+    const res = [];
+    const ii = clone(indices);
+    while (ii.length) {
+      res.push(array[ii.shift()]);
+    }
+    return res;
   };
 }

@@ -98,6 +98,34 @@ export function pad(str: string, n: number) {
   return str + repeat(' ', n - w);
 }
 
+export function splitByChars(str: string, spliter: string[] | string) {
+  const parts = [];
+  let currStr = '';
+  let spliters = [];
+  if (typeof spliter === 'string') {
+    spliters.push(spliter);
+  } else {
+    spliters = spliter;
+  }
+  const spliterSet = new Set(spliter);
+  // tslint:disable-next-line: prefer-for-of
+  for (let i = 0; i < str.length; i++) {
+    const ch = str[i];
+    if (!spliterSet.has(ch)) {
+      currStr += str[i];
+    } else {
+      if (currStr.length > 0) {
+        parts.push(currStr);
+      }
+      currStr = '';
+    }
+  }
+  if (currStr.length > 0) {
+    parts.push(currStr);
+  }
+  return parts;
+}
+
 export function explode(str: string, spliter: string|RegExp, replaceFn?: (a: any, i: number) => any) {
   const parts = [];
   let r: any = str.match(spliter);

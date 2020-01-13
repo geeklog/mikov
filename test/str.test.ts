@@ -17,6 +17,12 @@ describe('str', () => {
     );
   });
 
+  it('splitByChars', () => {
+    assert.deepEqual(str.splitByChars('abc1def2g', ['1', '2']), ['abc', 'def', 'g']);
+    assert.deepEqual(str.splitByChars('abc1defg2', ['1', '2']), ['abc', 'defg']);
+    assert.deepEqual(str.splitByChars('abc12defg3', ['1', '2', '3']), ['abc', 'defg']);
+  });
+
   it('removeLast', () => {
     str.removeLastChar('abc:', ':');
   });

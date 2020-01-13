@@ -1,5 +1,6 @@
 import { AnyFunc } from "./types";
 import { isFunction } from 'util';
+import { cloneDeep } from "lodash";
 
 export function clone(a: any[]) {
   const b: any[] = [];
@@ -105,7 +106,7 @@ export function exist(arr: any[], fn: AnyFunc) {
 }
 
 export function uniq(arr: any[]) {
-  return arr.filter((a, i) => arr.indexOf(a) === i);
+  return Array.from(new Set(arr));
 }
 
 export function first(arr: any[]) {
@@ -272,4 +273,27 @@ export function transpose(array: any[][]) {
     }
   }
   return transed;
+}
+
+/**
+ * repeat([1,2], 3) => [[1,2],[1,2],[1,2]]
+ */
+export function repeat(a: any, n: number) {
+  return [...Array(n)].map(i => cloneDeep(a));
+}
+
+/**
+ * classifyIndices([1,2,3,4,5], a => a % 2 === 0) => [[1,3], [0,2,4]]
+ */
+export function classifyIndices(array: any[], determin: Function) {
+  const a = [];
+  const b = [];
+  for (let i = 0; i < array.length; i++) {
+    if (determin(array[i], i)) {
+      a.push(i);
+    } else {
+      b.push(i);
+    }
+  }
+  return [a, b];
 }

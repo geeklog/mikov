@@ -338,3 +338,22 @@ export function removeCharBetween(str: string, start: number, end: number) {
   }
   return r;
 }
+
+export function splitByBracket(str, bracket = "[]") {
+  let t = str;
+  const regx = new RegExp(`\\${bracket[0]}(.+?)\\${bracket[1]}`, "g");
+  let f;
+  const r = [];
+  const s = String.fromCharCode(0);
+  while (!!(f = regx.exec(str))) {
+    const parts = t.split(f[0]);
+    const r0 = parts.shift();
+    if (r0) {
+      r.push({token: false, value: r0});
+    }
+    r.push({token: true, value: f[1]});
+    t = parts.join(f[0]);
+  }
+  r.push(t);
+  return r;
+}
